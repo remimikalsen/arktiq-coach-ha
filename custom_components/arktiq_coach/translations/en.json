@@ -1,0 +1,84 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add an ArktIQ Coach account",
+        "description": "One entry per person. Create a read-only API key in the app under Settings → Personal API.",
+        "data": {
+          "name": "Name",
+          "base_url": "ArktIQ Coach URL",
+          "api_key": "API key"
+        },
+        "data_description": {
+          "name": "Who this key belongs to, e.g. Remi or Big sister.",
+          "base_url": "The address of your ArktIQ Coach instance.",
+          "api_key": "The personal API key (akq_…), shown once when created."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Replace the API key",
+        "description": "The API key for {name} was rejected — it was probably revoked. Create a new key in the app and paste it here.",
+        "data": {
+          "api_key": "API key"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure ArktIQ Coach",
+        "data": {
+          "name": "Name",
+          "base_url": "ArktIQ Coach URL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the ArktIQ Coach instance.",
+      "invalid_auth": "The API key was rejected. Check that you pasted the full akq_… token and that it has not been revoked.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This API key is already configured.",
+      "reauth_successful": "The API key was replaced.",
+      "reconfigure_successful": "The account was updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "ArktIQ Coach options",
+        "data": {
+          "scan_interval": "Update interval (seconds)",
+          "tracked_metrics": "Tracked metrics",
+          "track_badges": "Track badges"
+        },
+        "data_description": {
+          "scan_interval": "How often to poll today's tasks and the summary. Badges and metrics refresh every 6th poll.",
+          "tracked_metrics": "Which metrics to expose as sensors. Custom keys are allowed for future packs.",
+          "track_badges": "Poll earned badges (needed for badge sensors and badge events)."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "tasks_done": { "name": "Tasks done today" },
+      "tasks_total": { "name": "Tasks total today" },
+      "tasks_remaining": { "name": "Tasks remaining" },
+      "completion": { "name": "Completion today" },
+      "streak": { "name": "Streak" },
+      "badge_count": { "name": "Badges" },
+      "last_badge": { "name": "Last badge" },
+      "next_task": { "name": "Next task due" },
+      "active_goals": { "name": "Active goals" }
+    },
+    "binary_sensor": {
+      "all_done": { "name": "All tasks done" }
+    },
+    "todo": {
+      "today": { "name": "Today's tasks" }
+    },
+    "event": {
+      "badge": { "name": "Badge" },
+      "coach": { "name": "Coach event" }
+    }
+  }
+}

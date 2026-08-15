@@ -1,0 +1,27 @@
+{
+  "entity": {
+    "sensor": {
+      "tasks_done": { "default": "mdi:check-circle" },
+      "tasks_total": { "default": "mdi:format-list-checks" },
+      "tasks_remaining": { "default": "mdi:progress-clock" },
+      "completion": { "default": "mdi:percent" },
+      "streak": { "default": "mdi:fire" },
+      "badge_count": { "default": "mdi:medal" },
+      "last_badge": { "default": "mdi:medal-outline" },
+      "active_goals": { "default": "mdi:target" }
+    },
+    "binary_sensor": {
+      "all_done": {
+        "default": "mdi:trophy-outline",
+        "state": { "on": "mdi:trophy" }
+      }
+    },
+    "todo": {
+      "today": { "default": "mdi:clipboard-text" }
+    },
+    "event": {
+      "badge": { "default": "mdi:medal" },
+      "coach": { "default": "mdi:bullhorn" }
+    }
+  }
+}

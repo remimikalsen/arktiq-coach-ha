@@ -1,0 +1,84 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Legg til en ArktIQ Coach-konto",
+        "description": "Én oppføring per person. Opprett en skrivebeskyttet API-nøkkel i appen under Innstillinger → Personlig API.",
+        "data": {
+          "name": "Navn",
+          "base_url": "ArktIQ Coach-adresse",
+          "api_key": "API-nøkkel"
+        },
+        "data_description": {
+          "name": "Hvem nøkkelen tilhører, f.eks. Remi eller Storesøster.",
+          "base_url": "Adressen til din ArktIQ Coach-instans.",
+          "api_key": "Den personlige API-nøkkelen (akq_…), vises kun én gang."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Bytt API-nøkkel",
+        "description": "API-nøkkelen for {name} ble avvist — den er sannsynligvis trukket tilbake. Opprett en ny nøkkel i appen og lim den inn her.",
+        "data": {
+          "api_key": "API-nøkkel"
+        }
+      },
+      "reconfigure": {
+        "title": "Endre ArktIQ Coach",
+        "data": {
+          "name": "Navn",
+          "base_url": "ArktIQ Coach-adresse"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Fikk ikke kontakt med ArktIQ Coach-instansen.",
+      "invalid_auth": "API-nøkkelen ble avvist. Sjekk at du limte inn hele akq_…-nøkkelen og at den ikke er trukket tilbake.",
+      "unknown": "Uventet feil."
+    },
+    "abort": {
+      "already_configured": "Denne API-nøkkelen er allerede konfigurert.",
+      "reauth_successful": "API-nøkkelen ble byttet.",
+      "reconfigure_successful": "Kontoen ble oppdatert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Alternativer for ArktIQ Coach",
+        "data": {
+          "scan_interval": "Oppdateringsintervall (sekunder)",
+          "tracked_metrics": "Målinger som følges",
+          "track_badges": "Følg utmerkelser"
+        },
+        "data_description": {
+          "scan_interval": "Hvor ofte dagens oppgaver og sammendraget hentes. Utmerkelser og målinger hentes hver 6. gang.",
+          "tracked_metrics": "Hvilke målinger som får egne sensorer. Egendefinerte nøkler er tillatt.",
+          "track_badges": "Hent utmerkelser (kreves for utmerkelsessensorer og -hendelser)."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "tasks_done": { "name": "Oppgaver fullført i dag" },
+      "tasks_total": { "name": "Oppgaver totalt i dag" },
+      "tasks_remaining": { "name": "Oppgaver igjen" },
+      "completion": { "name": "Fullføring i dag" },
+      "streak": { "name": "Dagsrekke" },
+      "badge_count": { "name": "Utmerkelser" },
+      "last_badge": { "name": "Siste utmerkelse" },
+      "next_task": { "name": "Neste oppgavefrist" },
+      "active_goals": { "name": "Aktive mål" }
+    },
+    "binary_sensor": {
+      "all_done": { "name": "Alle oppgaver fullført" }
+    },
+    "todo": {
+      "today": { "name": "Dagens oppgaver" }
+    },
+    "event": {
+      "badge": { "name": "Utmerkelse" },
+      "coach": { "name": "Coach-hendelse" }
+    }
+  }
+}
