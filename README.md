@@ -175,8 +175,7 @@ automation:
 > e.g. `sensor.arktiq_coach_remi_tasks_done`, `sensor.arktiq_coach_remi_weight_kg`,
 > `sensor.arktiq_coach_remi_goal_fitness`, `todo.arktiq_coach_remi_today` — regardless of your
 > Home Assistant language or the account's app language. Only the *friendly names* are
-> localized. (Entities created by versions before 0.1.1 keep their old IDs; remove and re-add
-> the entry, or rename them, to adopt the new scheme.)
+> localized.
 
 ## Dashboards 🖥️
 
