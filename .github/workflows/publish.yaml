@@ -17,23 +17,20 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
     steps:
 
-      - name: Start SSH agent with deploy key
-        uses: webfactory/ssh-agent@v0.10.0
+      # The pushes below authenticate as a GitHub App (short-lived installation
+      # token, Contents: read/write on this repo only) instead of a deploy key.
+      - name: Generate GitHub App token
+        uses: actions/create-github-app-token@v2
+        id: app-token
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Add GitHub to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
 
       - name: Check out repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
-      - name: Update remote URL to use SSH
-        run: git remote set-url origin git@github.com:${{ github.repository }}.git
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Determine next version from last tag
         id: semver
@@ -94,8 +91,8 @@ jobs:
           sed -i 's/__version__ = "[^"]*"/__version__ = "'${{ env.VERSION }}'"/' custom_components/arktiq_coach/const.py
 
           echo "${{ env.VERSION }}" > VERSION
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@arktiq_coach"
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
 
           git add custom_components/arktiq_coach/manifest.json
           git add custom_components/arktiq_coach/const.py
@@ -108,8 +105,8 @@ jobs:
       - name: Push new Git tag
         run: |
           # Configure Git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@arktiq_coach"
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
 
           # Create and push the new tag
           git tag "${{ env.VERSION }}" -m "ci: release version ${{ env.VERSION }}"
