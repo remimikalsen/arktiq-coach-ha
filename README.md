@@ -14,7 +14,7 @@ dashboard**.
 
 ## Features ✨
 
-- 👤 **One entry per person** — add each API key with a name ("Remi", "Kari"); every
+- 👤 **One entry per person** — add each API key with a name or description ("Remi", "Kari", "Dad", "Mom"); every
   person gets their own device with a full set of entities
 - ✅ **Today's tasks** — done/total/remaining sensors plus a native **to-do list** card
 - 📊 **Completion %** — the competition number, recorded as long-term statistics automatically
