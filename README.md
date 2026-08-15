@@ -193,8 +193,17 @@ cards:
       green: 80
       yellow: 40
       red: 0
-  - type: todo-list
-    entity: todo.arktiq_coach_remi_today
+  # Read-only task view with real status marks. (A todo-list card bound to
+  # todo.arktiq_coach_remi_today works too, but its checkboxes render
+  # disabled since the API is read-only — tasks are checked off in the app.)
+  - type: markdown
+    content: |
+      {% set tasks = state_attr('sensor.arktiq_coach_remi_tasks_done', 'tasks') or [] %}
+      {% for t in tasks %}
+      - {{ {'DONE': '✅', 'SKIPPED': '⏭️', 'MISSED': '❌'}.get(t.status, '🔲') }}
+        **{{ t.title }}** — {{ t.goal }}
+        {%- if t.checklist_items > 1 %} ({{ t.checked }}/{{ t.checklist_items }}){% endif %}
+      {% endfor %}
   - type: entities
     entities:
       - sensor.arktiq_coach_remi_streak
