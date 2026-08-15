@@ -46,7 +46,7 @@ GOAL_TYPE_ICONS = {
     "nutrition": "mdi:food-apple",
     "social": "mdi:account-group",
 }
-DEFAULT_GOAL_ICON = "mdi:flag-checkered"
+DEFAULT_GOAL_ICON = "mdi:target"
 
 
 def _completion(data: ArktiqCoachData) -> int:
