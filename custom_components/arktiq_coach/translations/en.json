@@ -10,7 +10,7 @@
           "api_key": "API key"
         },
         "data_description": {
-          "name": "Who this key belongs to, e.g. Remi or Big sister.",
+          "name": "Who this key belongs to, e.g. Remi or Kari.",
           "base_url": "The address of your ArktIQ Coach instance.",
           "api_key": "The personal API key (akq_…), shown once when created."
         }

@@ -27,7 +27,7 @@ reauth flow, diagnostics, translations.
 ### One config entry per API key = one person
 
 Each entry holds `{base_url, api_key, name}` where **name** is the person label
-("Remi", "Big sister"). Each entry creates one HA **device** ("ArktIQ Coach Remi") carrying all
+("Remi", "Kari"). Each entry creates one HA **device** ("ArktIQ Coach Remi") carrying all
 of that person's entities. Multiple entries are native HA behaviour — no special handling needed
 beyond a `unique_id` (SHA-256 of the API key, truncated) so the same key can't be added twice.
 Different entries may point at different `base_url`s (self-hosted instances).
@@ -109,7 +109,7 @@ README):
 - **Evening nudge** — at 19:00, if `tasks_remaining > 0`, notify that person's phone.
 - **Badge fanfare** — on `badge_earned`, notify everyone: "🏅 Remi earned *{title}*!"
 - **Competition taunt** — when sibling A's `all_done` turns on while sibling B still has tasks:
-  "Big sister is done — you have 2 left 😏".
+  "Kari is done — you have 2 left 😏".
 - **Streak guard** — at 21:00, if streak would break (nothing done today), high-priority notify.
 
 ## 5. Dashboards & competition
@@ -130,7 +130,7 @@ README):
 - **Leader template sensor** (documented helper):
   `sensor.coach_leader` = name of the entry with highest completion (tiebreak: streak) — built
   as a template sensor over the per-person sensors, usable in notifications
-  ("👑 Today's leader: Big sister").
+  ("👑 Today's leader: Kari").
 - `statistics-graph` comparing everyone's `completion` week over week — because `completion` has
   `state_class: measurement`, HA records long-term statistics per person automatically, so
   **weekly/monthly compliance comparison needs no extra API support**.

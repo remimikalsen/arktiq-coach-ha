@@ -10,7 +10,7 @@
           "api_key": "API-nøkkel"
         },
         "data_description": {
-          "name": "Hvem nøkkelen tilhører, f.eks. Remi eller Storesøster.",
+          "name": "Hvem nøkkelen tilhører, f.eks. Remi eller Kari.",
           "base_url": "Adressen til din ArktIQ Coach-instans.",
           "api_key": "Den personlige API-nøkkelen (akq_…), vises kun én gang."
         }

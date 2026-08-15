@@ -14,7 +14,7 @@ dashboard**.
 
 ## Features ✨
 
-- 👤 **One entry per person** — add each API key with a name ("Remi", "Big sister"); every
+- 👤 **One entry per person** — add each API key with a name ("Remi", "Kari"); every
   person gets their own device with a full set of entities
 - ✅ **Today's tasks** — done/total/remaining sensors plus a native **to-do list** card
 - 📊 **Completion %** — the competition number, recorded as long-term statistics automatically
@@ -140,10 +140,10 @@ automation:
 
 ```yaml
 automation:
-  - alias: "Coach: big sister finished first"
+  - alias: "Coach: Kari finished first"
     trigger:
       - platform: state
-        entity_id: binary_sensor.arktiq_coach_big_sister_all_done
+        entity_id: binary_sensor.arktiq_coach_kari_all_done
         to: "on"
     condition:
       - condition: numeric_state
@@ -153,7 +153,7 @@ automation:
       - service: notify.mobile_app_remis_phone
         data:
           message: >
-            Big sister is done for today — you still have
+            Kari is done for today — you still have
             {{ states('sensor.arktiq_coach_remi_tasks_remaining') }} left 😏
 
   - alias: "Coach: streak guard"
@@ -231,8 +231,8 @@ cards:
         min: 0
         max: 100
       - type: gauge
-        entity: sensor.arktiq_coach_big_sister_completion
-        name: Big sister
+        entity: sensor.arktiq_coach_kari_completion
+        name: Kari
         min: 0
         max: 100
   - type: glance
@@ -240,24 +240,24 @@ cards:
     entities:
       - entity: binary_sensor.arktiq_coach_remi_all_done
         name: Remi
-      - entity: binary_sensor.arktiq_coach_big_sister_all_done
-        name: Big sister
+      - entity: binary_sensor.arktiq_coach_kari_all_done
+        name: Kari
   - type: entities
     title: Streaks & badges
     entities:
       - entity: sensor.arktiq_coach_remi_streak
         name: Remi 🔥
-      - entity: sensor.arktiq_coach_big_sister_streak
-        name: Big sister 🔥
+      - entity: sensor.arktiq_coach_kari_streak
+        name: Kari 🔥
       - entity: sensor.arktiq_coach_remi_badge_count
         name: Remi 🏅
-      - entity: sensor.arktiq_coach_big_sister_badge_count
-        name: Big sister 🏅
+      - entity: sensor.arktiq_coach_kari_badge_count
+        name: Kari 🏅
   - type: statistics-graph
     title: Completion, last 30 days
     entities:
       - sensor.arktiq_coach_remi_completion
-      - sensor.arktiq_coach_big_sister_completion
+      - sensor.arktiq_coach_kari_completion
     stat_types: [mean]
     days_to_show: 30
 ```
@@ -275,8 +275,8 @@ template:
           {% set people = {
             'Remi': [states('sensor.arktiq_coach_remi_completion') | int(0),
                      states('sensor.arktiq_coach_remi_streak') | int(0)],
-            'Big sister': [states('sensor.arktiq_coach_big_sister_completion') | int(0),
-                           states('sensor.arktiq_coach_big_sister_streak') | int(0)],
+            'Kari': [states('sensor.arktiq_coach_kari_completion') | int(0),
+                           states('sensor.arktiq_coach_kari_streak') | int(0)],
           } %}
           {{ (people.items() | sort(attribute='1', reverse=true) | first)[0] }}
         icon: mdi:crown
