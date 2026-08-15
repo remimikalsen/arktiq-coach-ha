@@ -68,6 +68,22 @@ async def test_sensor_states(hass: HomeAssistant, mock_api) -> None:
     assert all_done.state == STATE_OFF
 
 
+async def test_entity_ids_are_english(hass: HomeAssistant, mock_api) -> None:
+    """Entity IDs come from the stable English keys, not localized names."""
+    await _setup_entry(hass)
+    for entity_id in (
+        "sensor.arktiq_coach_remi_tasks_done",
+        "sensor.arktiq_coach_remi_completion",
+        "sensor.arktiq_coach_remi_streak",
+        "sensor.arktiq_coach_remi_weight_kg",
+        "sensor.arktiq_coach_remi_goal_fitness",
+        "binary_sensor.arktiq_coach_remi_all_done",
+        "todo.arktiq_coach_remi_today",
+        "event.arktiq_coach_remi_badge",
+    ):
+        assert hass.states.get(entity_id) is not None, entity_id
+
+
 async def test_todo_list(hass: HomeAssistant, mock_api) -> None:
     """The todo entity mirrors today's list and is read-only."""
     entry = await _setup_entry(hass)

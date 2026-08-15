@@ -143,7 +143,7 @@ automation:
   - alias: "Coach: big sister finished first"
     trigger:
       - platform: state
-        entity_id: binary_sensor.arktiq_coach_big_sister_all_tasks_done
+        entity_id: binary_sensor.arktiq_coach_big_sister_all_done
         to: "on"
     condition:
       - condition: numeric_state
@@ -162,7 +162,7 @@ automation:
         at: "21:00:00"
     condition:
       - condition: state
-        entity_id: sensor.arktiq_coach_remi_tasks_done_today
+        entity_id: sensor.arktiq_coach_remi_tasks_done
         state: "0"
     action:
       - service: notify.mobile_app_remis_phone
@@ -171,8 +171,12 @@ automation:
           message: "Nothing done today — your {{ states('sensor.arktiq_coach_remi_streak') }}-day streak ends at midnight."
 ```
 
-> 💡 Your entity IDs may differ — check **Settings → Devices & Services → ArktIQ Coach** or
-> Developer Tools → States.
+> 💡 **Entity IDs are always English and predictable**: `<domain>.arktiq_coach_<name>_<key>`,
+> e.g. `sensor.arktiq_coach_remi_tasks_done`, `sensor.arktiq_coach_remi_weight_kg`,
+> `sensor.arktiq_coach_remi_goal_fitness`, `todo.arktiq_coach_remi_today` — regardless of your
+> Home Assistant language or the account's app language. Only the *friendly names* are
+> localized. (Entities created by versions before 0.1.1 keep their old IDs; remove and re-add
+> the entry, or rename them, to adopt the new scheme.)
 
 ## Dashboards 🖥️
 
@@ -182,7 +186,7 @@ automation:
 type: vertical-stack
 cards:
   - type: gauge
-    entity: sensor.arktiq_coach_remi_completion_today
+    entity: sensor.arktiq_coach_remi_completion
     name: Remi today
     min: 0
     max: 100
@@ -191,17 +195,17 @@ cards:
       yellow: 40
       red: 0
   - type: todo-list
-    entity: todo.arktiq_coach_remi_today_s_tasks
+    entity: todo.arktiq_coach_remi_today
   - type: entities
     entities:
       - sensor.arktiq_coach_remi_streak
-      - sensor.arktiq_coach_remi_badges
-      - sensor.arktiq_coach_remi_next_task_due
-      - sensor.arktiq_coach_remi_body_weight
+      - sensor.arktiq_coach_remi_badge_count
+      - sensor.arktiq_coach_remi_next_task
+      - sensor.arktiq_coach_remi_weight_kg
   - type: statistics-graph
     title: Weight
     entities:
-      - sensor.arktiq_coach_remi_body_weight
+      - sensor.arktiq_coach_remi_weight_kg
     stat_types: [mean]
     days_to_show: 30
 ```
@@ -214,21 +218,21 @@ cards:
   - type: horizontal-stack
     cards:
       - type: gauge
-        entity: sensor.arktiq_coach_remi_completion_today
+        entity: sensor.arktiq_coach_remi_completion
         name: Remi
         min: 0
         max: 100
       - type: gauge
-        entity: sensor.arktiq_coach_big_sister_completion_today
+        entity: sensor.arktiq_coach_big_sister_completion
         name: Big sister
         min: 0
         max: 100
   - type: glance
     title: Finished today 🏆
     entities:
-      - entity: binary_sensor.arktiq_coach_remi_all_tasks_done
+      - entity: binary_sensor.arktiq_coach_remi_all_done
         name: Remi
-      - entity: binary_sensor.arktiq_coach_big_sister_all_tasks_done
+      - entity: binary_sensor.arktiq_coach_big_sister_all_done
         name: Big sister
   - type: entities
     title: Streaks & badges
@@ -237,15 +241,15 @@ cards:
         name: Remi 🔥
       - entity: sensor.arktiq_coach_big_sister_streak
         name: Big sister 🔥
-      - entity: sensor.arktiq_coach_remi_badges
+      - entity: sensor.arktiq_coach_remi_badge_count
         name: Remi 🏅
-      - entity: sensor.arktiq_coach_big_sister_badges
+      - entity: sensor.arktiq_coach_big_sister_badge_count
         name: Big sister 🏅
   - type: statistics-graph
     title: Completion, last 30 days
     entities:
-      - sensor.arktiq_coach_remi_completion_today
-      - sensor.arktiq_coach_big_sister_completion_today
+      - sensor.arktiq_coach_remi_completion
+      - sensor.arktiq_coach_big_sister_completion
     stat_types: [mean]
     days_to_show: 30
 ```
@@ -261,9 +265,9 @@ template:
       - name: "Coach leader"
         state: >
           {% set people = {
-            'Remi': [states('sensor.arktiq_coach_remi_completion_today') | int(0),
+            'Remi': [states('sensor.arktiq_coach_remi_completion') | int(0),
                      states('sensor.arktiq_coach_remi_streak') | int(0)],
-            'Big sister': [states('sensor.arktiq_coach_big_sister_completion_today') | int(0),
+            'Big sister': [states('sensor.arktiq_coach_big_sister_completion') | int(0),
                            states('sensor.arktiq_coach_big_sister_streak') | int(0)],
           } %}
           {{ (people.items() | sort(attribute='1', reverse=true) | first)[0] }}

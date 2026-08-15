@@ -54,6 +54,8 @@ async def async_setup_entry(
 class ArktiqCoachEventEntity(ArktiqCoachEntity, EventEntity):
     """Relays coordinator-detected changes as event entity events."""
 
+    _entity_domain = "event"
+
     def __init__(
         self,
         coordinator: ArktiqCoachCoordinator,

@@ -29,6 +29,7 @@ class ArktiqCoachTodoList(ArktiqCoachEntity, TodoListEntity):
     so tasks are checked off in the app, not from Home Assistant.
     """
 
+    _entity_domain = "todo"
     _attr_translation_key = "today"
 
     def __init__(self, coordinator) -> None:

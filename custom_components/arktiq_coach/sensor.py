@@ -204,7 +204,11 @@ async def async_setup_entry(
             goal_id = goal.get("id")
             if goal_id and goal_id not in known_goals:
                 known_goals.add(goal_id)
-                new_entities.append(ArktiqGoalLevelSensor(coordinator, goal_id))
+                new_entities.append(
+                    ArktiqGoalLevelSensor(
+                        coordinator, goal_id, goal.get("goalTypeKey") or "goal"
+                    )
+                )
         for key, payload in coordinator.data.metrics.items():
             if payload is not None and key not in known_metrics:
                 known_metrics.add(key)
@@ -219,6 +223,7 @@ async def async_setup_entry(
 class ArktiqCoachSensor(ArktiqCoachEntity, SensorEntity):
     """A static per-account sensor."""
 
+    _entity_domain = "sensor"
     entity_description: ArktiqSensorDescription
 
     def __init__(
@@ -241,10 +246,15 @@ class ArktiqCoachSensor(ArktiqCoachEntity, SensorEntity):
 class ArktiqGoalLevelSensor(ArktiqCoachEntity, SensorEntity):
     """Current plan level of one active goal; named after the goal."""
 
+    _entity_domain = "sensor"
     _attr_icon = "mdi:target"
 
-    def __init__(self, coordinator: ArktiqCoachCoordinator, goal_id: str) -> None:
-        super().__init__(coordinator, f"goal_{goal_id}")
+    def __init__(
+        self, coordinator: ArktiqCoachCoordinator, goal_id: str, goal_type: str
+    ) -> None:
+        super().__init__(
+            coordinator, f"goal_{goal_id}", object_id=f"goal_{goal_type}"
+        )
         self._goal_id = goal_id
 
     def _goal(self) -> dict[str, Any] | None:
@@ -281,6 +291,7 @@ class ArktiqGoalLevelSensor(ArktiqCoachEntity, SensorEntity):
 class ArktiqMetricSensor(ArktiqCoachEntity, SensorEntity):
     """Latest logged value of a tracked metric (e.g. body weight)."""
 
+    _entity_domain = "sensor"
     _attr_state_class = SensorStateClass.MEASUREMENT
 
     def __init__(
@@ -289,7 +300,7 @@ class ArktiqMetricSensor(ArktiqCoachEntity, SensorEntity):
         metric_key: str,
         payload: dict[str, Any],
     ) -> None:
-        super().__init__(coordinator, f"metric_{metric_key}")
+        super().__init__(coordinator, f"metric_{metric_key}", object_id=metric_key)
         self._metric_key = metric_key
         device_class, unit = METRIC_PRESETS.get(
             metric_key, (None, payload.get("unit") or None)

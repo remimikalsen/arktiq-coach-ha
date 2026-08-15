@@ -23,6 +23,7 @@ async def async_setup_entry(
 class ArktiqAllDoneBinarySensor(ArktiqCoachEntity, BinarySensorEntity):
     """On when every task today is done (and there was at least one)."""
 
+    _entity_domain = "binary_sensor"
     _attr_translation_key = "all_done"
 
     def __init__(self, coordinator) -> None:
