@@ -28,13 +28,25 @@ from .entity import ArktiqCoachEntity
 
 PARALLEL_UPDATES = 0
 
-# Units/device classes for the metrics the app's packs seed today; anything
-# else falls back to the unit string the API reports.
-METRIC_PRESETS: dict[str, tuple[SensorDeviceClass | None, str | None]] = {
-    "weight_kg": (SensorDeviceClass.WEIGHT, UnitOfMass.KILOGRAMS),
-    "plank_hold": (None, UnitOfTime.SECONDS),
-    "pushups": (None, "reps"),
+# Units/device classes/icons for the metrics the app's packs seed today;
+# anything else falls back to the unit string the API reports.
+METRIC_PRESETS: dict[
+    str, tuple[SensorDeviceClass | None, str | None, str | None]
+] = {
+    # weight_kg gets its scale icon from the device class
+    "weight_kg": (SensorDeviceClass.WEIGHT, UnitOfMass.KILOGRAMS, None),
+    "plank_hold": (None, UnitOfTime.SECONDS, "mdi:timer-sand"),
+    "pushups": (None, "reps", "mdi:arm-flex"),
 }
+DEFAULT_METRIC_ICON = "mdi:chart-line"
+
+# Program/goal icons per pack, with a personal-goal fallback for future packs.
+GOAL_TYPE_ICONS = {
+    "fitness": "mdi:dumbbell",
+    "nutrition": "mdi:food-apple",
+    "social": "mdi:account-group",
+}
+DEFAULT_GOAL_ICON = "mdi:flag-checkered"
 
 
 def _completion(data: ArktiqCoachData) -> int:
@@ -247,7 +259,6 @@ class ArktiqGoalLevelSensor(ArktiqCoachEntity, SensorEntity):
     """Current plan level of one active goal; named after the goal."""
 
     _entity_domain = "sensor"
-    _attr_icon = "mdi:target"
 
     def __init__(
         self, coordinator: ArktiqCoachCoordinator, goal_id: str, goal_type: str
@@ -256,6 +267,7 @@ class ArktiqGoalLevelSensor(ArktiqCoachEntity, SensorEntity):
             coordinator, f"goal_{goal_id}", object_id=f"goal_{goal_type}"
         )
         self._goal_id = goal_id
+        self._attr_icon = GOAL_TYPE_ICONS.get(goal_type, DEFAULT_GOAL_ICON)
 
     def _goal(self) -> dict[str, Any] | None:
         for goal in self.coordinator.data.summary.get("goals", []):
@@ -302,11 +314,13 @@ class ArktiqMetricSensor(ArktiqCoachEntity, SensorEntity):
     ) -> None:
         super().__init__(coordinator, f"metric_{metric_key}", object_id=metric_key)
         self._metric_key = metric_key
-        device_class, unit = METRIC_PRESETS.get(
-            metric_key, (None, payload.get("unit") or None)
+        device_class, unit, icon = METRIC_PRESETS.get(
+            metric_key, (None, payload.get("unit") or None, DEFAULT_METRIC_ICON)
         )
         self._attr_device_class = device_class
         self._attr_native_unit_of_measurement = unit
+        if icon:
+            self._attr_icon = icon
 
     def _payload(self) -> dict[str, Any] | None:
         return self.coordinator.data.metrics.get(self._metric_key)

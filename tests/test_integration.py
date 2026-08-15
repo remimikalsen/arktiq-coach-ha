@@ -58,7 +58,9 @@ async def test_sensor_states(hass: HomeAssistant, mock_api) -> None:
     assert _state_of(hass, entry, "badge_count").state == "2"
     assert _state_of(hass, entry, "last_badge").state == "First week"
     assert _state_of(hass, entry, "active_goals").state == "1"
-    assert _state_of(hass, entry, "goal_goal-1").state == "3"
+    goal = _state_of(hass, entry, "goal_goal-1")
+    assert goal.state == "3"
+    assert goal.attributes["icon"] == "mdi:dumbbell"
     assert _state_of(hass, entry, "metric_weight_kg").state == "82.5"
 
     tasks_done = _state_of(hass, entry, "tasks_done")

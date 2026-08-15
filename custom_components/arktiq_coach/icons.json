@@ -8,7 +8,7 @@
       "streak": { "default": "mdi:fire" },
       "badge_count": { "default": "mdi:medal" },
       "last_badge": { "default": "mdi:medal-outline" },
-      "active_goals": { "default": "mdi:target" }
+      "active_goals": { "default": "mdi:flag-checkered" }
     },
     "binary_sensor": {
       "all_done": {
