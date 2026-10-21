@@ -1,6 +1,6 @@
 """Constants for the ArktIQ Coach integration."""
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 DOMAIN = "arktiq_coach"
 MANUFACTURER = "ArktIQ"
