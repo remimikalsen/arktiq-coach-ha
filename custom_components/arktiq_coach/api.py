@@ -63,7 +63,10 @@ class ArktiqCoachClient:
             raise ArktiqApiError(
                 f"HTTP {response.status} from {url}", status=response.status
             )
-        return await response.json()
+        try:
+            return await response.json()
+        except (aiohttp.ClientError, ValueError) as err:
+            raise ArktiqApiError(f"Invalid JSON response from {url}: {err}") from err
 
     async def get_summary(self) -> dict[str, Any]:
         """Active goals with level, streak and badge count."""

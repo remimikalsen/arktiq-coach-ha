@@ -15,6 +15,9 @@ from custom_components.arktiq_coach.const import (
     EVENT_BADGE_EARNED,
     SLOW_CYCLE,
 )
+from custom_components.arktiq_coach.diagnostics import (
+    async_get_config_entry_diagnostics,
+)
 from .conftest import BADGES, TODAY
 
 ENTRY_DATA = {
@@ -159,3 +162,19 @@ async def test_restart_does_not_replay_events(hass: HomeAssistant, mock_api) -> 
     hass.bus.async_listen(EVENT_BADGE_EARNED, _capture)
     await _setup_entry(hass)
     assert not events
+
+
+async def test_diagnostics_redact_key_and_name(hass: HomeAssistant, mock_api) -> None:
+    """Diagnostics carry neither the API key nor the person's name."""
+    entry = await _setup_entry(hass)
+
+    diagnostics = await async_get_config_entry_diagnostics(hass, entry)
+
+    assert diagnostics["entry"]["title"] == "**REDACTED**"
+    assert diagnostics["entry"]["data"] == {
+        CONF_NAME: "**REDACTED**",
+        CONF_BASE_URL: "https://coach.example.com",
+        CONF_API_KEY: "**REDACTED**",
+    }
+    assert "Remi" not in str(diagnostics)
+    assert "akq_test_key" not in str(diagnostics)
