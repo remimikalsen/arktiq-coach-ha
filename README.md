@@ -42,10 +42,17 @@ will then ask for a new key).
 ### Via HACS (recommended)
 
 1. Ensure [HACS](https://hacs.xyz/) is installed
-2. HACS → **⋮** (top right) → **Custom repositories**
-3. Add `https://github.com/remimikalsen/arktiq-coach-ha`, category **Integration**
-4. Find "ArktIQ Coach" in HACS and download it
-5. **Restart Home Assistant**
+2. Open HACS and search for **ArktIQ Coach**
+3. Open it and click **Download**
+4. **Restart Home Assistant**
+
+#### Not showing up in the search?
+
+If HACS cannot find "ArktIQ Coach" yet, add it as a custom repository first:
+
+1. HACS → **⋮** (top right) → **Custom repositories**
+2. Add `https://github.com/remimikalsen/arktiq-coach-ha`, category **Integration**
+3. Continue from step 2 above
 
 ### Manual
 
