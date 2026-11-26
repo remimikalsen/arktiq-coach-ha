@@ -39,13 +39,23 @@ will then ask for a new key).
 
 ## Installation 📦
 
-### Via HACS (recommended)
+### Via the Marketplace / HACS (recommended)
 
-1. Ensure [HACS](https://hacs.xyz/) is installed
-2. HACS → **⋮** (top right) → **Custom repositories**
-3. Add `https://github.com/remimikalsen/arktiq-coach-ha`, category **Integration**
-4. Find "ArktIQ Coach" in HACS and download it
-5. **Restart Home Assistant**
+Starting with Home Assistant 2026.11, HACS is built into Home Assistant as the **Marketplace**.
+On older versions, install [HACS](https://hacs.xyz/) and use it the same way.
+
+1. Open **Settings → Marketplace** (or **HACS** on Home Assistant older than 2026.11)
+2. Search for **ArktIQ Coach**
+3. Open it and install it
+4. **Restart Home Assistant**
+
+#### Not showing up in the search?
+
+If "ArktIQ Coach" is not found yet, add it as a custom repository first:
+
+1. In the Marketplace or HACS, open **Custom repositories** (in HACS: **⋮** top right)
+2. Add `https://github.com/remimikalsen/arktiq-coach-ha`, category **Integration**
+3. Search for **ArktIQ Coach** again and continue from step 3 above
 
 ### Manual
 
